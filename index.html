@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulador Bancario</title>
+  <link rel="stylesheet" href="css/css.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🏦 Banco Digital JS</h1>
+      <div id="infoUsuario">
+        <p id="mensajeBienvenida">Bienvenido al sistema bancario</p>
+        <p id="infoCuenta"></p>
+      </div>
+    </header>
+
+    <main>
+      <!-- ✅ Formulario para iniciar sesión -->
+      <section id="seccionLogin">
+        <h2>Iniciar sesión</h2>
+        <form id="formLogin">
+          <input type="text" id="inputCuenta" placeholder="Número de cuenta" required>
+          <input type="password" id="inputPin" placeholder="PIN" required>
+          <button type="submit">Entrar</button>
+        </form>
+      </section>
+
+      <!-- ✅ Controles bancarios (se muestran si hay sesión activa) -->
+      <section id="seccionControles" style="display: none;">
+        <h2>Acciones disponibles</h2>
+        <button onclick="consultarSaldo()">Consultar saldo</button>
+        <button onclick="mostrarFormulario('deposito')">Depositar</button>
+        <button onclick="mostrarFormulario('retiro')">Retirar</button>
+        <button onclick="mostrarFormulario('transferencia')">Transferir</button>
+        <button onclick="verMovimientos()">Ver movimientos</button>
+        <button onclick="cerrarSesion()">Cerrar sesión</button>
+      </section>
+
+      <!-- ✅ Formularios de operaciones -->
+      <section id="seccionFormularios">
+        <form id="formDeposito" style="display: none;">
+          <h3>Depositar dinero</h3>
+          <input type="number" id="montoDeposito" placeholder="Monto" required>
+          <button type="submit">Depositar</button>
+        </form>
+
+        <form id="formRetiro" style="display: none;">
+          <h3>Retirar dinero</h3>
+          <input type="number" id="montoRetiro" placeholder="Monto" required>
+          <button type="submit">Retirar</button>
+        </form>
+
+        <form id="formTransferencia" style="display: none;">
+          <h3>Transferir dinero</h3>
+          <input type="text" id="cuentaDestino" placeholder="Cuenta destino" required>
+          <input type="number" id="montoTransferencia" placeholder="Monto" required>
+          <button type="submit">Transferir</button>
+        </form>
+      </section>
+
+      <!-- ✅ Consola de salida -->
+      <section class="consola">
+        <h2>🖥️ Consola del Sistema</h2>
+        <div id="output"></div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Simulador Bancario &copy; 2025 - Curso JavaScript</p>
+    </footer>
+  </div>
+
+  <script src="js/simulador.js"></script>
+</body>
+</html>
