@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Simulador Bancario</title>
+  <title>Banco Digital JS - Simulador Bancario</title>
   <link rel="stylesheet" href="css/css.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
   <div class="container">
     <header>
-      <h1>🏦 Banco Digital JS</h1>
+      <h1><i class="fas fa-university"></i> Banco Digital JS</h1>
       <div id="infoUsuario">
         <p id="mensajeBienvenida">Bienvenido al sistema bancario</p>
         <p id="infoCuenta"></p>
@@ -17,58 +18,157 @@
     </header>
 
     <main>
-      <!-- ✅ Formulario para iniciar sesión -->
+      <!-- Sección de Login -->
       <section id="seccionLogin">
-        <h2>Iniciar sesión</h2>
+        <h2><i class="fas fa-sign-in-alt"></i> Iniciar sesión</h2>
         <form id="formLogin">
-          <input type="text" id="inputCuenta" placeholder="Número de cuenta" required>
-          <input type="password" id="inputPin" placeholder="PIN" required>
-          <button type="submit">Entrar</button>
+          <label for="inputCuenta">Número de cuenta</label>
+          <input type="text" id="inputCuenta" placeholder="Ej: C1001" required pattern="C\d{4}">
+          
+          <label for="inputPin">PIN (4 dígitos)</label>
+          <input type="password" id="inputPin" placeholder="****" required pattern="\d{4}" maxlength="4">
+          
+          <button type="submit" id="btnEntrar">
+            <i class="fas fa-door-open"></i> Entrar
+          </button>
+        </form>
+
+        <div class="separador">o</div>
+        <button onclick="mostrarFormulario('nuevaCuenta')" class="btn-secundario">
+          <i class="fas fa-user-plus"></i> Crear cuenta nueva
+        </button>
+
+        <form id="formNuevaCuenta" style="display: none;">
+          <h3><i class="fas fa-id-card"></i> Crear cuenta nueva</h3>
+          
+          <label for="nuevoTitular">Nombre completo</label>
+          <input type="text" id="nuevoTitular" placeholder="Ej: Juan Pérez" required minlength="3">
+          
+          <label for="nuevoPin">PIN (4 dígitos)</label>
+          <input type="password" id="nuevoPin" placeholder="****" required pattern="\d{4}" maxlength="4">
+          
+          <label for="confirmarPin">Confirmar PIN</label>
+          <input type="password" id="confirmarPin" placeholder="****" required pattern="\d{4}" maxlength="4">
+          
+          <label for="depositoInicial">Depósito inicial (opcional)</label>
+          <input type="number" id="depositoInicial" placeholder="Ej: 1000" min="0" max="10000">
+          
+          <div class="form-actions">
+            <button type="submit">
+              <i class="fas fa-check"></i> Crear cuenta
+            </button>
+            <button type="button" onclick="ocultarFormularios()" class="btn-cancelar">
+              <i class="fas fa-times"></i> Cancelar
+            </button>
+          </div>
         </form>
       </section>
 
-      <!-- ✅ Controles bancarios (se muestran si hay sesión activa) -->
+      <!-- Sección de Controles Bancarios -->
       <section id="seccionControles" style="display: none;">
-        <h2>Acciones disponibles</h2>
-        <button onclick="consultarSaldo()">Consultar saldo</button>
-        <button onclick="mostrarFormulario('deposito')">Depositar</button>
-        <button onclick="mostrarFormulario('retiro')">Retirar</button>
-        <button onclick="mostrarFormulario('transferencia')">Transferir</button>
-        <button onclick="verMovimientos()">Ver movimientos</button>
-        <button onclick="cerrarSesion()">Cerrar sesión</button>
+        <h2><i class="fas fa-cogs"></i> Acciones disponibles</h2>
+        <div class="controles-grid">
+          <button onclick="consultarSaldo()">
+            <i class="fas fa-wallet"></i> Consultar saldo
+          </button>
+          <button onclick="mostrarFormulario('deposito')">
+            <i class="fas fa-money-bill-wave"></i> Depositar
+          </button>
+          <button onclick="mostrarFormulario('retiro')">
+            <i class="fas fa-hand-holding-usd"></i> Retirar
+          </button>
+          <button onclick="mostrarFormulario('transferencia')">
+            <i class="fas fa-exchange-alt"></i> Transferir
+          </button>
+          <button onclick="verMovimientos()">
+            <i class="fas fa-history"></i> Movimientos
+          </button>
+          <button onclick="generarResumen()">
+            <i class="fas fa-file-alt"></i> Resumen
+          </button>
+          <button onclick="cerrarSesion()" class="btn-salir">
+            <i class="fas fa-sign-out-alt"></i> Salir
+          </button>
+        </div>
       </section>
 
-      <!-- ✅ Formularios de operaciones -->
+      <!-- Sección de Formularios de Operaciones -->
       <section id="seccionFormularios">
         <form id="formDeposito" style="display: none;">
-          <h3>Depositar dinero</h3>
-          <input type="number" id="montoDeposito" placeholder="Monto" required>
-          <button type="submit">Depositar</button>
+          <h3><i class="fas fa-money-bill-wave"></i> Depositar dinero</h3>
+          <label for="montoDeposito">Monto a depositar</label>
+          <input type="number" id="montoDeposito" placeholder="Ej: 1000" min="1" required>
+          
+          <div class="form-actions">
+            <button type="submit">
+              <i class="fas fa-check"></i> Confirmar
+            </button>
+            <button type="button" onclick="ocultarFormularios()" class="btn-cancelar">
+              <i class="fas fa-times"></i> Cancelar
+            </button>
+          </div>
         </form>
 
         <form id="formRetiro" style="display: none;">
-          <h3>Retirar dinero</h3>
-          <input type="number" id="montoRetiro" placeholder="Monto" required>
-          <button type="submit">Retirar</button>
+          <h3><i class="fas fa-hand-holding-usd"></i> Retirar dinero</h3>
+          <label for="montoRetiro">Monto a retirar</label>
+          <input type="number" id="montoRetiro" placeholder="Ej: 500" min="1" required>
+          
+          <div class="form-actions">
+            <button type="submit">
+              <i class="fas fa-check"></i> Confirmar
+            </button>
+            <button type="button" onclick="ocultarFormularios()" class="btn-cancelar">
+              <i class="fas fa-times"></i> Cancelar
+            </button>
+          </div>
         </form>
 
         <form id="formTransferencia" style="display: none;">
-          <h3>Transferir dinero</h3>
-          <input type="text" id="cuentaDestino" placeholder="Cuenta destino" required>
-          <input type="number" id="montoTransferencia" placeholder="Monto" required>
-          <button type="submit">Transferir</button>
+          <h3><i class="fas fa-exchange-alt"></i> Transferir dinero</h3>
+          <label for="cuentaDestino">Cuenta destino</label>
+          <input type="text" id="cuentaDestino" placeholder="Ej: C1002" required pattern="C\d{4}">
+          
+          <label for="montoTransferencia">Monto a transferir</label>
+          <input type="number" id="montoTransferencia" placeholder="Ej: 1000" min="1" required>
+          
+          <div class="form-actions">
+            <button type="submit">
+              <i class="fas fa-check"></i> Confirmar
+            </button>
+            <button type="button" onclick="ocultarFormularios()" class="btn-cancelar">
+              <i class="fas fa-times"></i> Cancelar
+            </button>
+          </div>
         </form>
       </section>
 
-      <!-- ✅ Consola de salida -->
+      <!-- Consola del Sistema -->
       <section class="consola">
-        <h2>🖥️ Consola del Sistema</h2>
+        <h2><i class="fas fa-terminal"></i> Consola del Sistema</h2>
         <div id="output"></div>
+      </section>
+
+      <!-- Cuentas de Prueba -->
+      <section class="datos-prueba">
+        <h2><i class="fas fa-key"></i> Cuentas de prueba</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Cuenta</th>
+              <th>Titular</th>
+              <th>PIN</th>
+              <th>Saldo inicial</th>
+            </tr>
+          </thead>
+          <tbody id="tablaCuentas"></tbody>
+        </table>
+        <p class="nota">Estas son cuentas de prueba para demostración del sistema.</p>
       </section>
     </main>
 
     <footer>
-      <p>Simulador Bancario &copy; 2025 - Curso JavaScript</p>
+      <p>Simulador Bancario &copy; 2025 - Curso JavaScript | Versión 3.1</p>
     </footer>
   </div>
 
